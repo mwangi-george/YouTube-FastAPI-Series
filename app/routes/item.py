@@ -18,6 +18,15 @@ def create_test_router() -> APIRouter:
         greeting = await test_service.get_greeting()
         return greeting
 
+    @router.get("/items")
+    async def get_items(q: list[str] = Query(["foo", "fuu"], deprecated=True)):
+        result = {
+            "items": [{"item_id": "foo"}, {"item_id": "far"}, {"item_id": "bar"}]
+        }
+        if q:
+            result.update({"item_id": q})
+        return result
+
     @router.get("/all")
     async def get_multiple_items(start: int = 0, end: int = 5) -> dict:
         items = await test_service.get_several_items(start, end)
@@ -44,10 +53,20 @@ def create_test_router() -> APIRouter:
         await test_service.add_item_to_db(item_profile=item_profile)
 
     @router.put("/{item_id}")
-    async def update_item_by_id(item_id: int, item_profile: Item, date: Optional[str] = Query(None, max_length=10, min_length=2, regex="dfv")):
+    async def update_item_by_id(
+        item_id: int,
+        item_profile: Item,
+        q: Optional[str] = Query(
+            None,
+            max_length=10,
+            min_length=2,
+            regex="dfv",
+            alias="item-query"
+        )
+    ):
         updated_item_info = await test_service.update_item(item_id=item_id, item_profile=item_profile)
-        if date:
-            updated_item_info.update({"query": date})
+        if q:
+            updated_item_info.update({"query": q})
         return updated_item_info
 
     return router
