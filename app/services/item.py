@@ -44,9 +44,6 @@ class TestService:
             return {"item_category": item_category, "message": "you like Households"}
 
     async def get_several_items(self, start: int, end: int) -> dict:
-        items = {}
-
-        for k, v in self.all_items.items():
-            if start <= k <= end:
-                items[k] = v
+        # {key: value for key, value in iterable if condition} -- dictionary comprehension
+        items = {k: v for k, v in self.all_items.items() if start <= k <= end}
         return items
