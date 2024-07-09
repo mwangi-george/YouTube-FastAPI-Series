@@ -56,3 +56,11 @@ class TestService:
             "item_name": item_profile.item_name,
             "item_description": item_profile.item_description
         }
+
+    async def update_item(self, item_id: int, item_profile: Item):
+        self.all_items[item_id] = {
+            "item_id": item_profile.item_id,
+            "item_name": item_profile.item_name,
+            "item_description": item_profile.item_description
+        }
+        return self.all_items[item_id]
