@@ -13,3 +13,7 @@ class ItemEnum(str, Enum):
     electronics = "electronics"
     households = "households"
     furniture = "furniture"
+
+
+class MultipleItems(BaseModel):
+    items: list[Item]

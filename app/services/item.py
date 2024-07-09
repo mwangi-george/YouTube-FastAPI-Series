@@ -1,4 +1,7 @@
-from app.schemas.item import Item, ItemEnum
+from app.schemas.item import (
+    Item,
+    ItemEnum,
+)
 
 
 class TestService:
@@ -10,6 +13,16 @@ class TestService:
             "item_id": 0,
             "item_name": "knife",
             "item_description": "For cutting stuff"
+        },
+        1: {
+            "item_id": 1,
+            "item_name": "chair",
+            "item_description": "For seating"
+        },
+        2: {
+            "item_id": 2,
+            "item_name": "radio",
+            "item_description": "For playing music"
         }
     }
 
@@ -29,3 +42,11 @@ class TestService:
             return {"item_category": item_category, "message": "you like furniture"}
         if item_category.value == "households":
             return {"item_category": item_category, "message": "you like Households"}
+
+    async def get_several_items(self, start: int, end: int) -> dict:
+        items = {}
+
+        for k, v in self.all_items.items():
+            if start <= k <= end:
+                items[k] = v
+        return items

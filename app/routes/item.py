@@ -17,6 +17,11 @@ def create_test_router() -> APIRouter:
         greeting = await test_service.get_greeting()
         return greeting
 
+    @router.get("/all")
+    async def get_multiple_items(start: int = 0, end: int = 5) -> dict:
+        items = await test_service.get_several_items(start, end)
+        return items
+
     @router.get("/{item_id}", response_model=Item)
     async def get_item_by_id(item_id: int) -> Item:
         try:
