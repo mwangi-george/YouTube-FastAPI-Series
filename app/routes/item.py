@@ -38,4 +38,8 @@ def create_test_router() -> APIRouter:
         response = await test_service.get_category(item_category)
         return response
 
+    @router.post("/", status_code=status.HTTP_201_CREATED)
+    async def add_item(item_profile: Item) -> None:
+        await test_service.add_item_to_db(item_profile=item_profile)
+
     return router

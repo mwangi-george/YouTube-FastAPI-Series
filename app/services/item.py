@@ -47,3 +47,12 @@ class TestService:
         # {key: value for key, value in iterable if condition} -- dictionary comprehension
         items = {k: v for k, v in self.all_items.items() if start <= k <= end}
         return items
+
+    async def add_item_to_db(self, item_profile: Item) -> Item:
+
+        item_id = len(self.all_items)
+        self.all_items[item_id] = {
+            "item_id": item_profile.item_id,
+            "item_name": item_profile.item_name,
+            "item_description": item_profile.item_description
+        }
