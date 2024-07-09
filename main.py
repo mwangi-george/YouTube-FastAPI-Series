@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.routes.test import create_test_router
+from app.routes.item import create_test_router
 
 
 def create_app() -> FastAPI:

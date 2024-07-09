@@ -4,8 +4,8 @@ from fastapi import (
     status,
 )
 
-from app.services.test import TestService
-from app.schemas.test import Item
+from app.services.item import TestService
+from app.schemas.item import Item
 
 
 def create_test_router() -> APIRouter:

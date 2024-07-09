@@ -1,4 +1,4 @@
-from app.schemas.test import Item
+from app.schemas.item import Item
 
 
 class TestService:
