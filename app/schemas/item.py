@@ -17,3 +17,10 @@ class ItemEnum(str, Enum):
 
 class MultipleItems(BaseModel):
     items: list[Item]
+
+
+class User(BaseModel):
+    username: str
+    first_name: str
+    middle_name: Optional[str] = None
+    last_name: str

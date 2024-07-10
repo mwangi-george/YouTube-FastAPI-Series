@@ -3,10 +3,15 @@ from fastapi import (
     HTTPException,
     status,
     Query,
+    Path,
 )
 from typing import Optional
 from app.services.item import TestService
-from app.schemas.item import Item, ItemEnum
+from app.schemas.item import (
+    Item,
+    ItemEnum,
+    User,
+)
 
 
 def create_test_router() -> APIRouter:
@@ -68,5 +73,36 @@ def create_test_router() -> APIRouter:
         if q:
             updated_item_info.update({"query": q})
         return updated_item_info
+
+    @router.get("/items_validation/{item_id}")
+    async def read_items_validation(
+        # this makes the rest of the arguments to be keyword arguments (kwargs)
+        *,
+        # ... makes it a required parameter not set to any value
+        item_id: int = Path(..., title="The id of the item", ge=50, le=500),
+        q: str,
+        size: float = Query(..., ge=0, le=1)
+    ):
+        results = {"item_id": item_id, "size": size}
+        if q:
+            results.update({"q": q})
+        return results
+
+    @router.put("/multiple_query_params/{item_id}")
+    async def update_multiple_params(
+        *,
+        item_id: int = Path(..., ge=1, le=100),
+        q: str | None = None,
+        item: Item | None = None,
+        user: User | None = None
+    ):
+        results = {"item_id": item_id}
+        if q:
+            results.update({"q": q})
+        if item:
+            results.update({"item": item})
+        if user:
+            results.update({"user": user})
+        return results
 
     return router
