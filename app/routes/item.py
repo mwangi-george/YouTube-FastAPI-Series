@@ -7,6 +7,8 @@ from fastapi import (
     Body,
 )
 from typing import Optional
+from datetime import datetime, time, timedelta
+from uuid import UUID
 from app.services.item import TestService
 from app.schemas.item import (
     Item,
@@ -109,5 +111,24 @@ def create_test_router() -> APIRouter:
         if importance:
             results.update({"importance": importance})
         return results
+
+    @router.put("/update_process/{process_id}")
+    async def process_update(
+        process_id: UUID,
+        start_date: datetime | None = Body(None),
+        end_date: datetime | None = Body(None),
+        repeat_at: time | None = Body(None),
+        process_after: timedelta | None = Body(None)
+    ):
+        start_process = start_date + process_after
+        duration = end_date - start_process
+        return {
+            "process_id": process_id,
+            "start_date": start_date,
+            "start_process": start_process,
+            "duration": duration,
+            "end_date": end_date,
+            "process_after": process_after
+        }
 
     return router
