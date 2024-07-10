@@ -4,6 +4,7 @@ from fastapi import (
     status,
     Query,
     Path,
+    Body,
 )
 from typing import Optional
 from app.services.item import TestService
@@ -93,8 +94,10 @@ def create_test_router() -> APIRouter:
         *,
         item_id: int = Path(..., ge=1, le=100),
         q: str | None = None,
-        item: Item | None = None,
-        user: User | None = None
+        item: Item | None,
+        user: User | None = None,
+        # passing a single value in the request body
+        importance: int = Body(...)
     ):
         results = {"item_id": item_id}
         if q:
@@ -103,6 +106,8 @@ def create_test_router() -> APIRouter:
             results.update({"item": item})
         if user:
             results.update({"user": user})
+        if importance:
+            results.update({"importance": importance})
         return results
 
     return router
