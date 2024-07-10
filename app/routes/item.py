@@ -5,6 +5,8 @@ from fastapi import (
     Query,
     Path,
     Body,
+    Cookie,
+    Header,
 )
 from typing import Optional
 from datetime import datetime, time, timedelta
@@ -129,6 +131,18 @@ def create_test_router() -> APIRouter:
             "duration": duration,
             "end_date": end_date,
             "process_after": process_after
+        }
+
+    @router.get("/request_cookie_and_header")
+    async def cookie_and_header(
+        cookie_id: int | None = Cookie(None),
+        accept_encoding: str | None = Header(None),
+        user_agent: str | None = Header(None)
+    ):
+        return {
+            "cookie_id": cookie_id,
+            "Accept-Encoding": accept_encoding,
+            "User-Agent": user_agent
         }
 
     return router
