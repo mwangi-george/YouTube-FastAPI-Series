@@ -8,6 +8,15 @@ class Item(BaseModel):
     item_name: str
     item_description: Optional[str]
 
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "item_id": 59,
+                "item_name": "radio",
+                "item_description": "For playing music"
+            }
+        }
+
 
 class ItemEnum(str, Enum):
     electronics = "electronics"
@@ -24,3 +33,14 @@ class User(BaseModel):
     first_name: str
     middle_name: Optional[str] = None
     last_name: str
+
+    # adding example as documentation
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "username": "daviske",
+                "first_name": "David",
+                "middle_name": "John",
+                "last_name": "Ke"
+            }
+        }
